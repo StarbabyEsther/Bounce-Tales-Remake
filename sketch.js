@@ -2,8 +2,8 @@ let platforms = [
   { x: 100, y: 400, w: 150, h: 20 },
   { x: 200, y: 300, w: 50, h: 20 },
   { x: 300, y: 200, w: 10, h: 20 },
- { x: 0, y: 500, w: 150, h: 20 },   // "ground" left
- { x: 250, y: 500, w: 150, h: 20 },  // "ground" right
+ { x: 0, y: 500, w: 150, h: 20 },   // "ground" platform left
+ { x: 250, y: 500, w: 150, h: 20 },  // "ground" platform right
 ];
 
 let spikes = [
