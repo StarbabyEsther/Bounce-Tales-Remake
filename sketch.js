@@ -1,9 +1,17 @@
+let score = 0;
+let coins = [
+  {x:100, y: 430, collected: false},
+  {x:250, y: 330, collected: false},
+  {x:300, y: 230, collected: false},
+  {x:170, y: 270, collected: false},
+  {x:370, y: 360, collected: false},
+]
 let platforms = [
   { x: 100, y: 400, w: 150, h: 20 },
   { x: 200, y: 300, w: 50, h: 20 },
   { x: 300, y: 200, w: 10, h: 20 },
- { x: 0, y: 500, w: 150, h: 20 },   // "ground" platform left
- { x: 250, y: 500, w: 150, h: 20 },  // "ground" platform right
+ { x: 0, y: 500, w: 150, h: 20 },   // "ground" left
+ { x: 250, y: 500, w: 150, h: 20 },  // "ground" right
 ];
 
 let spikes = [
@@ -115,6 +123,7 @@ function draw() {
      ballY = 100;
      speed = 0;
 }
+
 // function keyPressed() {
 //   if (keyCode === UP_ARROW && onGround) {
 //     //     && here means it is definitely on the ground, without the && onGround the ball will jump infinite times on the air
@@ -122,10 +131,25 @@ function draw() {
 //   }
 // }
   }
+  //     COINS
+    for (let i = 0; i < coins.length; i++){
+      let c = coins[i];
+      if(c.collected === false){
+     fill("gold");
+     ellipse(c.x,c.y,10)
+  }
+      if(dist(ballX, ballY, c.x,c.y) < 20){
+      c.collected = true;
+      score = score + 10;
+    }
+    }
+    
   fill("red");
   //   this is the orange ball
   ellipse(ballX, ballY, stretchX, stretchY);
   //  this is the platform the ball will jump on
-  
+  fill("white");
+  textSize(20);
+  text("Score: " + score, 10, 20)
 
 }
