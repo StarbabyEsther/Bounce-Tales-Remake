@@ -1,3 +1,4 @@
+let camX = 0
 let score = 0;
 let coins = [
   {x:100, y: 430, collected: false},
@@ -10,15 +11,21 @@ let platforms = [
   { x: 100, y: 400, w: 150, h: 20 },
   { x: 200, y: 300, w: 50, h: 20 },
   { x: 300, y: 200, w: 10, h: 20 },
- { x: 0, y: 500, w: 150, h: 20 },   // "ground" left
- { x: 250, y: 500, w: 150, h: 20 },  // "ground" right
+  {x: 400, y: 100, w: 70, h :20},
+  {x: 100, y: 260, w: 50, h :20},
+  {x: 500, y: 200, w: 100, h :20},
+  {x: 600, y: 350, w: 140, h :20},
+  { x: 0, y: 500, w: 150, h: 20 },
+  // left ground
+  { x: 250, y: 500, w: 600, h: 20 },
+  // right ground
 ];
 
 let spikes = [
-  {x : 170, y: 520, w: 30, h: 20},
-  {x : 200, y: 520, w: 30, h: 20},
-  {x : 230, y: 520, w: 30, h: 20},
-]
+  { x: 170, y: 520, w: 30, h: 20 },
+  { x: 200, y: 520, w: 30, h: 20 },
+  { x: 230, y: 520, w: 30, h: 20 },
+];
 
 let onGround = false;
 let stretchX = 36;
@@ -37,6 +44,8 @@ function setup() {
 
 function draw() {
   background(0);
+  push();
+  translate(-camX, 0);
   fill(255, 0, 0);
   
   if(onGround === false){
@@ -44,6 +53,7 @@ function draw() {
   }
   ballY = ballY + speed;
   // speed pushes ball downward
+   camX = ballX - 200;
 
   for (let i = 0; i < platforms.length; i++) {
     let p = platforms[i];
@@ -148,6 +158,7 @@ function draw() {
   //   this is the orange ball
   ellipse(ballX, ballY, stretchX, stretchY);
   //  this is the platform the ball will jump on
+  pop();
   fill("white");
   textSize(20);
   text("Score: " + score, 10, 20)
