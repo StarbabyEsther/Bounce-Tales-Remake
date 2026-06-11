@@ -1,3 +1,6 @@
+let ballNormal;
+let ballStretch;
+let ballSquish;
 let camX = 0
 let score = 0;
 let coins = [
@@ -37,6 +40,12 @@ let speed = 0;
 // the force pulling it down every frame
 let gravity = 1.5;
 let ground = 500;
+
+function preload(){
+  ballNormal = loadImage("ball normal.png");
+  ballStretch = loadImage("ball stretch.png");
+  ballSquish = loadImage("ball squish.png");
+}
 
 function setup() {
   createCanvas(400, 600);
@@ -156,7 +165,20 @@ function draw() {
     
   fill("red");
   //   this is the orange ball
-  ellipse(ballX, ballY, stretchX, stretchY);
+  
+  if(speed > 2){
+      image(ballStretch, ballX-18, ballY-18, stretchX, stretchY);
+  }
+  // If falling fast stretch
+  else if(speed === 0 && onGround){
+      image(ballSquish, ballX-18, ballY-18, stretchX, stretchY);
+  }
+  // If sitting still on ground squish
+  else{
+      image(ballNormal, ballX-18, ballY-18, stretchX, stretchY);
+  }
+  // or else normal
+
   //  this is the platform the ball will jump on
   pop();
   fill("white");
