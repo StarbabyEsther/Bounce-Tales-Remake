@@ -9,30 +9,82 @@ let coins = [
   {x:300, y: 230, collected: false},
   {x:170, y: 270, collected: false},
   {x:370, y: 360, collected: false},
+  {x:390, y: 100, collected: false},
+  {x:400, y: 200, collected: false},
+  {x:450, y: 250, collected: false},
+  {x:470, y: 220, collected: false},
+  {x:500, y: 470, collected: false},
+  {x:600, y: 230, collected: false},
+  {x:650, y: 230, collected: false},
+  {x:700, y: 210, collected: false},
+  {x:720, y: 470, collected: false},
+  {x:800, y: 360, collected: false},
+  {x:810, y: 320, collected: false},
+  {x:900, y: 300, collected: false},
+  {x:950, y: 360, collected: false},
+  {x:920, y: 100, collected: false},
+  {x:990, y: 220, collected: false},
+  {x:1000, y: 420, collected: false},
+  {x:1200, y: 160, collected: false},
+  {x: 1250, y: 470, collected: false},
+  {x:1310, y: 300, collected: false},
+  {x:1312, y: 250, collected: false},
+  {x:1370, y: 200, collected: false},
+  {x:1400, y: 100, collected: false},
+  {x:1470, y: 190, collected: false},
 ]
 let platforms = [
   { x: 100, y: 400, w: 150, h: 20 },
-  { x: 200, y: 300, w: 50, h: 20 },
-  { x: 300, y: 200, w: 10, h: 20 },
+  { x: 200, y: 320, w: 30, h: 20 },
+  { x: 310, y: 220, w: 10, h: 20 },
+  {x: 350, y: 390, w: 10, h :20},
+  {x: 400, y: 300, w: 20, h :20},
   {x: 400, y: 100, w: 70, h :20},
   {x: 100, y: 260, w: 50, h :20},
-  {x: 500, y: 200, w: 100, h :20},
-  {x: 600, y: 350, w: 140, h :20},
+  {x: 700, y: 300, w: 100, h :20},
+  {x: 750, y: 100, w: 70, h :20},
+  {x: 860, y: 200, w: 40, h :20},
+  {x: 890, y: 330, w: 100, h :20},
+  {x: 930, y: 80, w: 50, h :20},
+  {x: 970, y: 150, w: 100, h :20},
+  {x: 1000, y: 200, w: 90, h :20},
+  {x: 1100, y: 310, w: 100, h :20},
+  {x: 1200, y: 200, w: 70, h :20},
+  {x: 1300, y: 330, w: 50, h :20},
+  {x: 1300, y: 70, w: 60, h :20},
+  {x: 1350, y: 210, w: 100, h :20},
+  {x: 1500, y: 270, w: 80, h :20},
+  {x: 500, y: 230, w: 10, h :20},
+  {x: 600, y: 370, w: 140, h :20},
   { x: 0, y: 500, w: 150, h: 20 },
   // left ground
-  { x: 250, y: 500, w: 600, h: 20 },
+  { x: 250, y: 500, w: 100, h: 20 },
   // right ground
+  { x: 450, y: 500, w: 300, h: 20 },
+  { x: 910, y: 500, w: 300, h: 20 },
+  { x: 1310, y: 500, w: 300, h: 20 },
 ];
 
 let spikes = [
   { x: 170, y: 520, w: 30, h: 20 },
   { x: 200, y: 520, w: 30, h: 20 },
   { x: 230, y: 520, w: 30, h: 20 },
+  { x: 370, y: 520, w: 30, h: 20 },
+  { x: 400, y: 520, w: 30, h: 20 },
+  { x: 430, y: 520, w: 30, h: 20 },
+  { x: 770, y: 520, w: 30, h: 20 },
+  { x: 800, y: 520, w: 30, h: 20 },
+  { x: 830, y: 520, w: 30, h: 20 },
+  { x: 860, y: 520, w: 30, h: 20 },
+  { x: 890, y: 520, w: 30, h: 20 },
+  { x: 1230, y: 520, w: 30, h: 20 },
+  { x: 1260, y: 520, w: 30, h: 20 },
+  { x: 1290, y: 520, w: 30, h: 20 },
 ];
 
 let onGround = false;
-let stretchX = 36;
-let stretchY = 36;
+let stretchX = 64;
+let stretchY = 64;
 let ballX = 300;
 let ballY = 100;
 // how fast the ball is moving up or down
@@ -109,6 +161,14 @@ function draw() {
     ballY = 100;
     ballX = 300;
     speed = 0;
+    score = 0;
+    for(let i = 0; i < coins.length; i++){
+      coins[i].collected = false;
+    }
+    // let i = 0(start at 0)
+    // i < coins.length( keep going while i is less than coin.length)
+    // i++(increase by 1 coin each time)
+    
   }
 //   DEATH CHECKS
   
@@ -141,6 +201,10 @@ function draw() {
      ballX = 300;
      ballY = 100;
      speed = 0;
+     score = 0;
+    for(let i = 0; i < coins.length; i++){
+      coins[i].collected = false;
+    }
 }
 
 // function keyPressed() {
@@ -157,7 +221,7 @@ function draw() {
      fill("gold");
      ellipse(c.x,c.y,10)
   }
-      if(dist(ballX, ballY, c.x,c.y) < 20){
+      if(dist(ballX, ballY, c.x,c.y) < 20 && c.collected ===false){
       c.collected = true;
       score = score + 10;
     }
