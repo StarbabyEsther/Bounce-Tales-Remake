@@ -1,3 +1,11 @@
+let groundGrass;
+let groundBasic;
+let coinImg;
+let platformBasic;
+let platformGrass;
+let spike;
+let touchStartX = 0;
+let touchStartY = 0;
 let ballNormal;
 let ballStretch;
 let ballSquish;
@@ -93,7 +101,7 @@ let ballY = 100;
 // how fast the ball is moving up or down
 let speed = 0;
 // the force pulling it down every frame
-let gravity = 1.5;
+let gravity = 2.0;
 let ground = 500;
 
 function preload() {
@@ -101,10 +109,18 @@ function preload() {
   ballStretch = loadImage("ball stretch.png");
   ballSquish = loadImage("ball squish.png");
   ballBreak = loadImage("ball break.png");
+  groundGrass = loadImage("groundGrass.png");
+  groundBasic = loadImage("groundBasic.png");
+  coinImg = loadImage("coinImg.png");
+  spike = loadImage("spike.png");
+  platformGrass = loadImage("platformGrass.png");
+  platformBasic = loadImage("platformBasic.png");
+  
 }
 
 function setup() {
-  createCanvas(400, 600);
+  createCanvas(windowWidth, windowHeight);
+  document.body.style.overflow = 'hidden';
 }
 
 function draw() {
@@ -130,7 +146,7 @@ function draw() {
       ballY + stretchY / 2 <= p.y + 20 &&
       //       to land on the platform the ball has to be 20 pixels on the platform
       ballX >= p.x &&
-      //       i think this is the balls starting point when jumping on the platform. if it is too far left, it shouldn't land, it should fall off.
+      //       i think this is the balls starting point when jumping on the platform. it basically means it should land, it should just stay mid air. without this line of code the ball will just be hanging on air.
       ballX <= p.x + p.w &&
       speed > 0
     ) {
@@ -147,14 +163,20 @@ function draw() {
       // stretchY = 28;
     }
 
-    fill(0, 128, 128);
-    rect(p.x, p.y, p.w, p.h);
+    if(p.y === 500){
+  // draw ground tiles
+  for(let tx = p.x; tx < p.x + p.w; tx += 32){
+    image(groundGrass, tx, p.y, 32, 32);
+  }
+} else {
+      image(platformBasic, p.x, p.y, p.w, p.h);
+}
     //   i stored the platform in an object
     //   an object stores multiple information
     //   we use .x,.y,.w,.h because they are already stored before the setup function. usingplatformx without the'.' doesn't make sense
   }
 
-  if (ballY > 600) {
+  if (ballY > windowHeight) {
     ballY = 100;
     ballX = 300;
     speed = 0;
@@ -186,7 +208,7 @@ function draw() {
   fill("red");
   for (let i = 0; i < spikes.length; i++) {
     let s = spikes[i];
-    triangle(s.x, s.y - 25, s.x - 10, s.y, s.x + 10, s.y);
+    image(spike, s.x - 2, s.y - 20, 15, 25);
 
     if (
       ballX >= s.x - 10 &&
@@ -219,7 +241,7 @@ function draw() {
     }
     if (dist(ballX, ballY, c.x, c.y) < 20 && c.collected === false) {
       c.collected = true;
-      score = score + 10;
+      score = score + 2;
     }
   }
 
@@ -265,3 +287,30 @@ function draw() {
   textSize(20);
   text("Score: " + score, 10, 20);
 }
+
+function windowResized(){
+  resizeCanvas(windowWidth, windowHeight)
+}
+
+// function touchStarted(){
+// if(touches.length > 0){
+  
+//   if(mouseX < windowWidth / 3){
+//     ballX = ballX - 15;
+//   } else if(mouseX > (windowWidth / 3) * 2){
+//     ballX = ballX + 15;
+//   } else {
+//     speed = -20;
+//   }
+// }
+//   return false;
+// }
+
+// function touchMoved(){
+//   if(mouseX < windowWidth / 3){
+//     ballX = ballX - 15;
+//   } else if(mouseX > (windowWidth / 3) * 2){
+//     ballX = ballX + 15;
+//   }
+//   return false;
+// }
